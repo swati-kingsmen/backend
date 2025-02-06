@@ -13,6 +13,7 @@ const meetingHistory = new mongoose.Schema({
     location: String,
     related: String,
     dateTime: String,
+    scheduleDateTime:String,
     notes: String,
     // meetingReminders: { type: String, required: true },
     createBy: {

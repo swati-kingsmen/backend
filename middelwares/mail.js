@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const nodemailer = require('nodemailer');
 
 // Function to send an email
@@ -5,7 +7,7 @@ const sendEmail = async (to, subject, text) => {
     try {
         if (to && process.env.user && process.env.pass) {
             const transporter = nodemailer.createTransport({
-                host: 'smtp.office365.com',
+                host: 'smtp.ethereal.com',
                 port: 587,
                 auth: {
                     user: process.env.user,

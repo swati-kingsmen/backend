@@ -5,6 +5,7 @@ const email = require('../../model/schema/email');
 const User = require('../../model/schema/user')
 const PhoneCall = require('../../model/schema/phoneCall');
 const { Property } = require('../../model/schema/property')
+const {whatsApp} = require('../../model/schema/whatsApp')
 const TextMsg = require('../../model/schema/textMsg');
 const Task = require('../../model/schema/task')
 const MeetingHistory = require('../../model/schema/meeting');
@@ -118,6 +119,10 @@ const lineChart = async (req, res) => {
             }
             if (item.title === "Meetings" && item.view === false) {
                 const data = result.filter((val) => val.name !== "Meetings")
+                result = data
+            }
+            if (item.title === "whatsApp" && item.view === false) {
+                const data = result.filter((val) => val.name !== "whatsApp")
                 result = data
             }
             if (item.title === "Tasks" && item.view === false) {

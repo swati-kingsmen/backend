@@ -22,10 +22,11 @@ const add = async (req, res) => {
         if (existingRole) {
             return res.status(400).json({ message: `${roleName} Role already exist` });
         }
+        
         else {
             const createdDate = new Date();
 
-            const titles = ['Emails', 'Calls', 'Meetings', 'Tasks', 'Properties', 'Contacts', 'Leads'];
+            const titles = ['Emails', 'Calls', 'Meetings', 'Tasks', 'Properties', 'Contacts', 'Leads','WhatsApp'];
             const customModules = Array.from(await customField.find(), item => item.moduleName);
 
             async function processModules() {
@@ -44,7 +45,6 @@ const add = async (req, res) => {
                 await titles?.forEach((item) => {
                     access.push({ title: item, create: false, update: false, delete: false, view: false });
                 })
-
                 const role = new RoleAccess({ roleName: roleName, description, access, createdDate });
                 await role.save();
                 return res.status(200).json({ message: `${roleName} Role created successfully` });

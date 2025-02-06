@@ -13,6 +13,7 @@ const route = require('./route/_routes');
 const emailRoute = require('./emailHistory/_routes');
 const phoneCallRoute = require('./phoneCall/_routes');
 const TextMsgRoute = require('./textMsg/_routes');
+const WhatsAppRoute = require('./whatsapp/_routes')
 const meetingRoute = require('./meeting/_routes');
 const paymentRoute = require('./payment/_routes');
 const roleAccessRoute = require('./roleAccess/_routes');
@@ -37,6 +38,7 @@ router.use('/email', emailRoute);
 router.use('/phoneCall', phoneCallRoute);
 router.use('/text-msg', TextMsgRoute);
 router.use('/meeting', meetingRoute);
+router.use('/whatsapp', WhatsAppRoute);
 
 router.use("/images", imagesRoute);
 router.use('/role-access', roleAccessRoute);
