@@ -28,7 +28,7 @@ const leadFields = [
     "options": [],
     "validation": [
         {
-            "require": true,
+            "require": false,
             "message": "",
         },
     ],

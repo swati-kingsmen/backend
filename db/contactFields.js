@@ -45,11 +45,67 @@ const contactFields = [
         "options": [],
         "validation": [
             {
-                "require": true,
+                "require": false,
                 "message": "",
             },
         ],
     },
+    // {
+    //     "name": "comments",
+    //     "label": "Comments",
+    //     "type": "array",   // Change "text" to "array" to correctly indicate it's an array of objects
+    //     "fixed": true,
+    //     "delete": false,
+    //     "belongsTo": null,
+    //     "backendType": "array",  
+    //     "isTableField": true,
+    //     "options": [],
+    //     "validation": [
+    //         {
+    //             "require": true,
+    //             "message": "At least one comment is required"
+    //         }
+    //     ],
+    //     "subFields": [ 
+    //         {
+    //             "name": "comment",
+    //             "label": "Comment Text",
+    //             "type": "text",
+    //             "backendType": "String",
+    //             "validation": [
+    //                 {
+    //                     "require": true,
+    //                     "message": "Comment text is required"
+    //                 }
+    //             ]
+    //         },
+    //         {
+    //             "name": "createdAt",
+    //             "label": "Created At",
+    //             "type": "date",
+    //             "backendType": "Date",
+    //             "default": "now"  // Automatically set timestamp
+    //         }
+    //     ]
+    // },    
+    
+// {
+//     "name": "comments",
+//     "label": "Comments",
+//     "type": "text",
+//     "fixed": true,
+//     "delete": false,
+//     "belongsTo": null,
+//     "backendType": "array",
+//     "isTableField": true,
+//     "options": [],
+//     "validation": [
+//         {
+//             "require": true,
+//             "message": "",
+//         },
+//     ],
+// },
 
     {
         "name": "leadRemark",
