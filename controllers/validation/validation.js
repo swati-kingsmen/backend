@@ -88,7 +88,7 @@ const deleteValidationDocument = async (req, res) => {
 const deleteManyValidationDocuments = async (req, res) => {
     try {
         const validationIds = req.body;
-        console.log("validationIds ", validationIds);
+        //console.log("validationIds ", validationIds);
         const result = await Validation.updateMany(
             { _id: { $in: validationIds } },
             {

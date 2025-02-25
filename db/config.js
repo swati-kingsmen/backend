@@ -30,7 +30,7 @@ const initializedSchemas = async () => {
                 const moduleSchema = new mongoose.Schema(schemaFields);
                 // Create Mongoose model
                 mongoose.model(moduleName, moduleSchema, moduleName);
-                console.log(`Schema created for module: ${moduleName}`);
+                //console.log(`Schema created for module: ${moduleName}`);
             }
         }
     };
@@ -50,10 +50,10 @@ const connectDB = async (DATABASE_URL, DATABASE) => {
 
         // const collectionsToDelete = ['abc', 'Report and analytics', 'test', 'krushil', 'bca', 'xyz', 'lkjhg', 'testssssss', 'tel', 'levajav', 'tellevajav', 'Contact'];
         // const db = mongoose.connection.db;
-        // console.log(db)
+        // //console.log(db)
         // for (const collectionName of collectionsToDelete) {
         //     await db.collection(collectionName).drop();
-        //     console.log(`Collection ${collectionName} deleted successfully.`);
+        //     //console.log(`Collection ${collectionName} deleted successfully.`);
         // }
         await initializedSchemas();
 
@@ -87,18 +87,18 @@ const connectDB = async (DATABASE_URL, DATABASE) => {
             const user = new User({ _id: new mongoose.Types.ObjectId('64d33173fd7ff3fa0924a109'), username, password: hashedPassword, firstName, lastName, phoneNumber, role: 'superAdmin' });
             // Save the user to the database
             await user.save();
-            console.log("Admin created successfully..");
+            //console.log("Admin created successfully..");
         } else if (adminExisting[0].deleted === true) {
             await User.findByIdAndUpdate(adminExisting[0]._id, { deleted: false });
-            console.log("Admin Update successfully..");
+            //console.log("Admin Update successfully..");
         } else if (adminExisting[0].username !== "admin@kingsmenrealty.com") {
             await User.findByIdAndUpdate(adminExisting[0]._id, { username: 'admin@kingsmenrealty.com' });
-            console.log("Admin Update successfully..");
+            //console.log("Admin Update successfully..");
         }
 
-        console.log("Database Connected Successfully..");
+        //console.log("Database Connected Successfully..");
     } catch (err) {
-        console.log("Database Not connected", err.message);
+        //console.log("Database Not connected", err.message);
     }
 }
 module.exports = connectDB

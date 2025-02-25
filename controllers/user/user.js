@@ -97,7 +97,7 @@ const view = async (req, res) => {
         if (!user) return res.status(404).json({ message: "no Data Found." })
         res.status(200).json(user)
     } catch (error) {
-        console.log(error)
+        //console.log(error)
         res.status(500).json({ error });
     }
 }
@@ -160,7 +160,7 @@ let deleteData = async (req, res) => {
 
 
 // const deleteMany = async (req, res) => {
-//     console.log(req.body,"req.body..........................")
+//     //console.log(req.body,"req.body..........................")
 //     try {
 //         // if(process.env.DEFAULT_USERS.includes(username)){
 //         //     return res.status(400).json({ message: `You don't have access to change ${username}` })
@@ -169,7 +169,7 @@ let deleteData = async (req, res) => {
        
 //         const userIds = req.body; // Assuming req.body is an array of user IDs
 //         const users = await User.find({ _id: { $in: userIds } });
-//         console.log(users,"users....................")
+//         //console.log(users,"users....................")
 //         // Check for default users and filter them out
 //         const defaultUsers = process.env.DEFAULT_USERS;
 //         const filteredUsers = users.filter(user => !defaultUsers.includes(user.username));
@@ -177,8 +177,8 @@ let deleteData = async (req, res) => {
 //         // Further filter out superAdmin users
 //         const nonSuperAdmins = filteredUsers.filter(user => user.role !== 'superAdmin');
 //         const nonSuperAdminIds = nonSuperAdmins.map(user => user._id);
-//         console.log(nonSuperAdminIds,"nonSuperAdminIds....................")
-//         console.log(nonSuperAdmins,"nonSuperAdmins....................")
+//         //console.log(nonSuperAdminIds,"nonSuperAdminIds....................")
+//         //console.log(nonSuperAdmins,"nonSuperAdmins....................")
 //         if (nonSuperAdminIds.length === 0) {
 //             return res.status(400).json({ message: "No users to delete or all users are protected." });
 //         }
@@ -186,7 +186,7 @@ let deleteData = async (req, res) => {
 //         // Update the 'deleted' field to true for the remaining users
 //         const updatedUsers = await User.updateMany({ _id: { $in: nonSuperAdminIds } }, { $set: { deleted: true } });
         
-// console.log(updatedUsers,"updatedUsers....................")
+// //console.log(updatedUsers,"updatedUsers....................")
 //         res.status(200).json({ message: "done", updatedUsers })
 //     } catch (err) {
 //         res.status(404).json({ message: "error", err })
@@ -236,7 +236,7 @@ const edit = async (req, res) => {
    
     try {
         let { username, firstName, lastName, phoneNumber, designation, assignedManager, assignedEmployees } = req.body;
-        console.log("Helloo-----------------", assignedManager)
+        //console.log("Helloo-----------------", assignedManager)
         // Update user data
         let result = await User.updateOne(
             { _id: req.params.id },
@@ -251,7 +251,7 @@ const edit = async (req, res) => {
         if (designation === "rm" && assignedManager) {
             // Find the manager by assignedManager ID
             const manager = await User.findById(assignedManager);
-            console.log(manager, 'manager--------------------')
+            //console.log(manager, 'manager--------------------')
 
             if (manager) {
                 // Update the manager's assignedEmployees array by adding the current user's ID
@@ -259,7 +259,7 @@ const edit = async (req, res) => {
 
                 // Save the updated manager data
                 await manager.save();
-                console.log(`Manager's assignedEmployees array updated for ${manager.username}`);
+                //console.log(`Manager's assignedEmployees array updated for ${manager.username}`);
             } else {
                 return res.status(404).json({ error: 'Manager not found' });
             }

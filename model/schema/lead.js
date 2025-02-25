@@ -55,6 +55,10 @@ const leadSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    isEdited:{
+        type: Number,
+                default: 0,
+            },
 });
 
 const initializeLeadSchema = async () => {

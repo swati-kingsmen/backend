@@ -50,44 +50,44 @@ const contactFields = [
             },
         ],
     },
-    // {
-    //     "name": "comments",
-    //     "label": "Comments",
-    //     "type": "array",   // Change "text" to "array" to correctly indicate it's an array of objects
-    //     "fixed": true,
-    //     "delete": false,
-    //     "belongsTo": null,
-    //     "backendType": "array",  
-    //     "isTableField": true,
-    //     "options": [],
-    //     "validation": [
-    //         {
-    //             "require": true,
-    //             "message": "At least one comment is required"
-    //         }
-    //     ],
-    //     "subFields": [ 
-    //         {
-    //             "name": "comment",
-    //             "label": "Comment Text",
-    //             "type": "text",
-    //             "backendType": "String",
-    //             "validation": [
-    //                 {
-    //                     "require": true,
-    //                     "message": "Comment text is required"
-    //                 }
-    //             ]
-    //         },
-    //         {
-    //             "name": "createdAt",
-    //             "label": "Created At",
-    //             "type": "date",
-    //             "backendType": "Date",
-    //             "default": "now"  // Automatically set timestamp
-    //         }
-    //     ]
-    // },    
+    {
+        "name": "comments",
+        "label": "Comments",
+        "type": "array",   // Change "text" to "array" to correctly indicate it's an array of objects
+        "fixed": true,
+        "delete": false,
+        "belongsTo": null,
+        "backendType": "array",  
+        "isTableField":false,
+        "options": [],
+        "validation": [
+            {
+                "require": true,
+                "message": "At least one comment is required"
+            }
+        ],
+        "subFields": [ 
+            {
+                "name": "comment",
+                "label": "Comment Text",
+                "type": "text",
+                "backendType": "String",
+                "validation": [
+                    {
+                        "require": true,
+                        "message": "Comment text is required"
+                    }
+                ]
+            },
+            {
+                "name": "createdAt",
+                "label": "Created At",
+                "type": "date",
+                "backendType": "Date",
+                "default": "now"  // Automatically set timestamp
+            }
+        ]
+    },    
     
 // {
 //     "name": "comments",
@@ -143,6 +143,16 @@ const contactFields = [
                 "requiresDatePicker": true,
             },
             {
+                "name": "Office Visit Schedule", 
+                "value": "OfficeVisitSchedule",
+                "requiresDatePicker": true,
+            },
+            {
+                "name": "Office Visit Reschedule", 
+                "value": "OfficeVisitReschedule",
+                "requiresDatePicker": true,
+            },
+            {
                 "name": "Site Visited Done", 
                 "value": "visitedDone",
             },
@@ -170,6 +180,14 @@ const contactFields = [
                 "value": "currentlyNotInterested",
             },
             {
+                "name": "Already Purchased", 
+                "value": "alreadyPurchased",
+            },
+            {
+                "name": "Sales Closed", 
+                "value": "salesClosed",
+            },
+            {
                 "name": "Lead Lost",
                 "value": "leadLost",
             }
@@ -181,6 +199,17 @@ const contactFields = [
                 "formikType": "String",
             }
         ],
+    },
+    {
+        "name": "dateTime",
+        "label": "Date-Time",
+        "type": "datetime-local",
+        "fixed": false,
+        "delete": false,
+        "belongsTo": null,
+        "backendType": "Date",
+        "isTableField": true,
+        "options": [],
     },
     // {
     //     "name": "leadStatus",
@@ -269,6 +298,26 @@ const contactFields = [
             },
         ],
     },
+
+
+    // {
+    //     "name": "dialedCalls",
+    //     "label": "Dialed Calls",
+    //     "type": "number",
+    //     "fixed": true,
+    //     "delete": false,
+    //     "belongsTo": null,
+    //     "backendType": "Number",
+    //     "isTableField": true,
+    //     "options": [],
+    //     "validation": [
+    //         {
+    //             "require": false,
+    //             "message": ""
+    //         }
+    //     ]
+    // }
+    
 
 ];
 

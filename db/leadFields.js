@@ -86,6 +86,16 @@ const leadFields = [
                 "requiresDatePicker": true,
             },
             {
+                "name": "Office Visit Schedule", 
+                "value": "OfficeVisitSchedule",
+                "requiresDatePicker": true,
+            },
+            {
+                "name": "Office Visit Reschedule", 
+                "value": "OfficeVisitReschedule",
+                "requiresDatePicker": true,
+            },
+            {
                 "name": "Site Visited Done", 
                 "value": "visitedDone",
             },
@@ -109,6 +119,14 @@ const leadFields = [
                 "requiresDatePicker": true,
             },
             {
+                "name": "Already Purchased", 
+                "value": "alreadyPurchased",
+            },
+            {
+                "name": "Sales Closed", 
+                "value": "salesClosed",
+            },
+            {
                 "name": "Currenlty Not Interested", 
                 "value": "currentlyNotInterested",
             },
@@ -125,6 +143,44 @@ const leadFields = [
             }
         ],
     },
+    {
+        "name": "comments",
+        "label": "Comments",
+        "type": "array",   // Change "text" to "array" to correctly indicate it's an array of objects
+        "fixed": true,
+        "delete": false,
+        "belongsTo": null,
+        "backendType": "array",  
+        "isTableField": false,
+        "options": [],
+        "validation": [
+            {
+                "require": true,
+                "message": "At least one comment is required"
+            }
+        ],
+        "subFields": [ 
+            {
+                "name": "comment",
+                "label": "Comment Text",
+                "type": "text",
+                "backendType": "String",
+                "validation": [
+                    {
+                        "require": true,
+                        "message": "Comment text is required"
+                    }
+                ]
+            },
+            {
+                "name": "createdAt",
+                "label": "Created At",
+                "type": "date",
+                "backendType": "Date",
+                "default": "now"  // Automatically set timestamp
+            }
+        ]
+    },    
     {
         "name": "leadStatus",
         "label": "Lead Status",
@@ -146,6 +202,9 @@ const leadFields = [
             {
                 "name": "COLD",
                 "value": "cold",
+            },{
+                "name":"BOOKED",
+                'value':'booked'
             }
         ],
         "validation": [
@@ -154,6 +213,17 @@ const leadFields = [
                 "formikType": "String",
             }
         ],
+    },
+    {
+        "name": "dateTime",
+        "label": "Date-Time",
+        "type": "datetime-local",
+        "fixed": false,
+        "delete": false,
+        "belongsTo": null,
+        "backendType": "Date",
+        "isTableField": true,
+        "options": [],
     },
     {
         "name": "origin",
@@ -249,6 +319,25 @@ const leadFields = [
             },
         ],
     },
+
+    {
+        "name": "assignedTo",
+        "label": "Assigned To",
+        "type": "text",
+        "fixed": true,
+        "delete": false,
+        "belongsTo": null,
+        "backendType": "String",
+        "isTableField": true,
+        "options": [],
+        "validation": [
+            {
+                "require": true,
+                "message": "",
+            },
+        ],
+    },
+    
 ];
 
 exports.leadFields = leadFields;

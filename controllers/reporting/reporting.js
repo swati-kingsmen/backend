@@ -159,7 +159,8 @@ const lineChart = async (req, res) => {
 
             }
         }
-    } else if (userDetails.role === "superAdmin") {
+    } 
+    else if (userDetails.role === "superAdmin") {
         for (const item of fields) {
             if (!result.find((i) => i.name === item.moduleName)) {
                 const ExistingModel = mongoose.model(item.moduleName);

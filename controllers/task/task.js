@@ -177,7 +177,7 @@ const view = async (req, res) => {
         res.status(200).json(result[0]);
 
     } catch (err) {
-        console.log('Error:', err);
+        //console.log('Error:', err);
         res.status(400).json({ Error: err });
     }
 }

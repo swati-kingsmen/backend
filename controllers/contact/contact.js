@@ -26,7 +26,7 @@ const DocumentSchema = require('../../model/schema/document')
 
 
 const index = async (req, res) => {
-    console.log(req.query,"**********************")
+    //console.log(req.query,"**********************")
     try {
         const query = { ...req.query, deleted: false }; // Ensure `deleted` is part of the query
 
@@ -56,15 +56,17 @@ const index = async (req, res) => {
 
 
 // const add = async (req, res) => {
+//     //console.log(req.body)
 //     try {
 //         // Get the lead remark from the request body
 //         const { leadRemark } = req.body;
-//         console.log("Received leadRemark:", leadRemark);
+
 //         // Define the mappings between lead remarks and their statuses
 //         const statusMappings = {
-//             cold: ["RNR", "Not Interested", "Busy", "Not Reachable", "Currenlty Not Interested", "Lead Lost"],
-//             warm: ["Follow Up", "Site Visit Schedule", "Site Visit Reschedule", "Video Call Schedule", "Video Call Reschedule"],
-//             hot: ["Site Visited Done", "Booking Done"]
+//             cold: ["rnr", "notInterested", "busy", "notReachable", "currenltyNotInterested", "leadLost"],
+//             warm: ["followUp", "visitScheduled", "visitReschedule", "videoCallScheduled", "videoCallReschedule"],
+//             hot: ["visitedDone", "bookingDone","OfficeVisitSchedule","OfficeVisitReschedule"],
+//             booked:["salesClosed","alreadyPurchased"]
 //         };
 
 //         // Check if the leadRemark is valid and determine the leadStatus
@@ -97,19 +99,21 @@ const index = async (req, res) => {
 //     }
 // };
 
+
 const add = async (req, res) => {
+    //console.log(req.body);
     try {
-        // Get the lead remark from the request body
         const { leadRemark } = req.body;
 
         // Define the mappings between lead remarks and their statuses
         const statusMappings = {
             cold: ["rnr", "notInterested", "busy", "notReachable", "currenltyNotInterested", "leadLost"],
             warm: ["followUp", "visitScheduled", "visitReschedule", "videoCallScheduled", "videoCallReschedule"],
-            hot: ["visitedDone", "bookingDone"]
+            hot: ["visitedDone", "bookingDone", "OfficeVisitSchedule", "OfficeVisitReschedule"],
+            booked: ["salesClosed", "alreadyPurchased"]
         };
 
-        // Check if the leadRemark is valid and determine the leadStatus
+        // Determine leadStatus based on leadRemark
         let leadStatus;
         for (const [status, remarks] of Object.entries(statusMappings)) {
             if (remarks.includes(leadRemark)) {
@@ -118,30 +122,37 @@ const add = async (req, res) => {
             }
         }
 
-        // If leadRemark is invalid, return an error
         if (!leadStatus) {
             return res.status(400).json({ success: false, message: "Invalid leadRemark for status update" });
         }
 
-        // Set the leadStatus based on the remark and add createdDate
+        // Ensure comments is stored as an array (not a string)
         req.body.createdDate = new Date();
-        req.body.leadStatus = leadStatus;  // Set the determined leadStatus in the request body
+        req.body.leadStatus = leadStatus;
+
+        if (typeof req.body.comments === "string") {
+            try {
+                req.body.comments = JSON.parse(req.body.comments); // Convert back to array if sent as a string
+            } catch (error) {
+                console.error("Failed to parse comments:", error);
+                req.body.comments = []; // Default to empty array if parsing fails
+            }
+        }
 
         // Create a new contact and save to the database
         const user = new Contact(req.body);
         await user.save();
 
-        // Return the newly created user with the leadStatus included
         res.status(200).json(user);
     } catch (err) {
-        console.error('Failed to create Contact:', err);
-        res.status(400).json({ error: 'Failed to create Contact' });
+        console.error("Failed to create Contact:", err);
+        res.status(400).json({ error: "Failed to create Contact" });
     }
 };
 
 
 const addMany = async (req, res) => {
-    console.log(".........................................................................................................................................",req.body)
+    //console.log(".................................................",req.body)
     try {
         const data = req.body;
         const insertedContact = await Contact.insertMany(data);
@@ -209,7 +220,8 @@ const changeStatus = async (req, res) => {
         const statusMappings = {
             cold: ["RNR", "Not Interested", "Busy", "Not Reachable", "Currenlty Not Interested", "Lead Lost"],
             warm: ["Follow Up", "Site Visit Schedule", "Site Visit Reschedule", "Video Call Schedule", "Video Call Reschedule"],
-            hot: ["Site Visited Done", "Booking Done"]
+            hot: ["visitedDone", "bookingDone", "OfficeVisitSchedule", "OfficeVisitReschedule"],
+            booked: ["salesClosed", "alreadyPurchased"]
         };
 
         // Check if the name is valid in any status category
@@ -258,16 +270,112 @@ const changeStatus = async (req, res) => {
 //     }
 // }
 
+// const edit = async (req, res) => {
+//     //console.log(req.body,".................................................")
+//     try {
+//         // Extract leadRemark from the request body
+//         const { leadRemark } = req.body;
+// //console.log(leadRemark)
+//         // Define the mappings between lead remarks and their statuses
+//         const statusMappings = {
+//             cold: ["RNR", "Not Interested", "Busy", "Not Reachable", "Currenlty Not Interested", "Lead Lost"],
+//             warm: ["Follow Up", "Site Visit Schedule", "Site Visit Reschedule", "Video Call Schedule", "Video Call Reschedule"],
+//             hot: ["Site Visited Done", "Booking Done"]
+//         };
+
+//         // Determine the leadStatus based on the leadRemark
+//         let leadStatus;
+//         for (const [status, remarks] of Object.entries(statusMappings)) {
+//             if (remarks.includes(leadRemark)) {
+//                 leadStatus = status;
+//                 break;
+//             }
+//         }
+
+//         // If leadRemark is valid, update the leadStatus in the request body
+//         if (leadStatus) {
+//             req.body.leadStatus = leadStatus;
+//         } else {
+//             // If no valid status is found, return an error
+//             return res.status(400).json({ success: false, message: "Invalid leadRemark for status update" });
+//         }
+
+//         // Update the contact, including the leadStatus
+//         let result = await Contact.updateOne(
+//             { _id: req.params.id },
+//             { $set: req.body }
+//         );
+
+//         // Return the result after the update
+//         res.status(200).json(result);
+//     } catch (err) {
+//         console.error('Failed to Update Contact:', err);
+//         res.status(400).json({ error: 'Failed to Update Contact' });
+//     }
+// };
+// const edit = async (req, res) => {
+//     //console.log(req.body, ".................................................");
+//     try {
+//         const { leadRemark, comments } = req.body;
+
+//         //console.log("Lead Remark:", leadRemark);
+//         //console.log("New Comment:", comments);
+
+//         // Define the mappings between lead remarks and their statuses
+//         const statusMappings = {
+//             cold: ["RNR", "Not Interested", "Busy", "Not Reachable", "Currently Not Interested", "Lead Lost"],
+//             warm: ["Follow Up", "Site Visit Schedule", "Site Visit Reschedule", "Video Call Schedule", "Video Call Reschedule"],
+//             hot: ["Site Visited Done", "Booking Done"]
+//         };
+
+//         // Determine the leadStatus based on the leadRemark
+//         let leadStatus;
+//         for (const [status, remarks] of Object.entries(statusMappings)) {
+//             if (remarks.includes(leadRemark)) {
+//                 leadStatus = status;
+//                 break;
+//             }
+//         }
+
+//         if (!leadStatus) {
+//             return res.status(400).json({ success: false, message: "Invalid leadRemark for status update" });
+//         }
+
+//         // Prepare the update object
+//         let updateData = { leadStatus };
+
+//         // If new comments exist, append them to the existing comments array
+//         if (comments) {
+//             updateData.$push = { comments: { $each: comments } };
+//         }
+
+//         // Update the contact, including the leadStatus and appending new comments
+//         let result = await Contact.updateOne(
+//             { _id: req.params.id },
+//             { $set: updateData }
+//         );
+
+//         res.status(200).json(result);
+//     } catch (err) {
+//         console.error("Failed to Update Contact:", err);
+//         res.status(400).json({ error: "Failed to Update Contact" });
+//     }
+// };
 const edit = async (req, res) => {
+    //console.log(req.body, ".................................................");
     try {
-        // Extract leadRemark from the request body
-        const { leadRemark } = req.body;
-console.log(leadRemark)
+        const { leadRemark, comments,dialedCalls } = req.body;
+
+        //console.log("Lead Remark:", leadRemark);
+        //console.log("New Comment:", comments);
+        //console.log("dialedCalls:", dialedCalls);
+
         // Define the mappings between lead remarks and their statuses
         const statusMappings = {
-            cold: ["RNR", "Not Interested", "Busy", "Not Reachable", "Currenlty Not Interested", "Lead Lost"],
+            cold: ["RNR", "Not Interested", "Busy", "Not Reachable", "Currently Not Interested", "Lead Lost"],
             warm: ["Follow Up", "Site Visit Schedule", "Site Visit Reschedule", "Video Call Schedule", "Video Call Reschedule"],
-            hot: ["Site Visited Done", "Booking Done"]
+            hot: ["visitedDone", "bookingDone", "OfficeVisitSchedule", "OfficeVisitReschedule"],
+            booked: ["salesClosed", "alreadyPurchased"]
         };
 
         // Determine the leadStatus based on the leadRemark
@@ -279,25 +387,31 @@ console.log(leadRemark)
             }
         }
 
-        // If leadRemark is valid, update the leadStatus in the request body
-        if (leadStatus) {
-            req.body.leadStatus = leadStatus;
-        } else {
-            // If no valid status is found, return an error
+        if (!leadStatus) {
             return res.status(400).json({ success: false, message: "Invalid leadRemark for status update" });
         }
 
-        // Update the contact, including the leadStatus
+        // Prepare the update object with leadStatus
+        let updateData = { leadStatus };
+
+        // Construct the update query
+        let updateQuery = { $set: updateData };
+
+        // If new comments exist, append them to the existing comments array
+        if (comments) {
+            updateQuery.$push = { comments: { $each: comments } };
+        }
+
+        // Update the contact, ensuring comments are appended instead of replaced
         let result = await Contact.updateOne(
             { _id: req.params.id },
-            { $set: req.body }
+            updateQuery
         );
-
-        // Return the result after the update
+        //console.log(result)
         res.status(200).json(result);
     } catch (err) {
-        console.error('Failed to Update Contact:', err);
-        res.status(400).json({ error: 'Failed to Update Contact' });
+        console.error("Failed to Update Contact:", err);
+        res.status(400).json({ error: "Failed to Update Contact" });
     }
 };
 

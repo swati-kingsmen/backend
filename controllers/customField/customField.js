@@ -153,7 +153,7 @@ const editSingleField = async (req, res) => {
                 //             nameAlreadyExists = field?.name?.toLowerCase() === updatedFieldName?.toLowerCase();
                 //         }
                 //     });
-                //     console.log("nameAlreadyExists ", nameAlreadyExists);
+                //     //console.log("nameAlreadyExists ", nameAlreadyExists);
 
                 //     // Check if the updatedFieldName exists in the schema
                 //     const existingFieldInSchema = Object.keys(existingSchema.paths).find(pathName => pathName.toLowerCase() === updatedFieldName?.toLowerCase());
@@ -562,7 +562,7 @@ const changeModuleName = async (req, res) => {
                         if (mongoose.models[moduleName]) {
                             exists = true;
                         } else {
-                            console.log(`Module ${moduleName} does not exist, waiting...`);
+                            //console.log(`Module ${moduleName} does not exist, waiting...`);
                             await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for 1 second
                         }
                     }
@@ -570,7 +570,7 @@ const changeModuleName = async (req, res) => {
                 await checkModuleExistence(newModuleName);
 
             } else {
-                console.log(`Module ${oldModuleName} does not exist`)
+                //console.log(`Module ${oldModuleName} does not exist`)
             }
         };
 

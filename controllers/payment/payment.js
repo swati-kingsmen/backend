@@ -35,7 +35,7 @@ const index = async (req, res) => {
 
         res.status(200).json(paymentInfo);
     } catch (e) {
-        console.log(e)
+        //console.log(e)
         res.status(500).json({ error: e.message });
     }
 }
@@ -65,7 +65,7 @@ const add = async (req, res) => {
         });
         res.json({ url: session.url });
     } catch (e) {
-        console.log("error: ", e);
+        //console.log("error: ", e);
         res.status(500).json({ error: e.message });
     }
 }

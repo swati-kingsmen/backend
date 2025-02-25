@@ -6,53 +6,16 @@ const fetchSchemaFields = async () => {
 };
 
 const contactSchema = new mongoose.Schema({
-    // 1. Basic Information
-    // firstName: String,
-    // lastName: String,
-    // title: String,
-    // email: String,
-    // phoneNumber: Number,
-    // mobileNumber: Number,
-    // physicalAddress: String,
-    // mailingAddress: String,
-    // preferredContactMethod: String,
-    // // 2.Lead Source Information
-    // leadSource: String,
-    // referralSource: String,
-    // campaignSource: String,
-    // // 3. Status and Classifications
-    // leadStatus: String,
-    // leadRating: Number,
-    // leadConversionProbability: String,
-    // // 4. Property of Interest
     interestProperty: [{
         type: mongoose.Schema.ObjectId,
         ref: 'Properties',
     }],
-    // // 5. History:
-    // notesandComments: String,
-    // // 6. Tags or Categories
-    // tagsOrLabelsForcategorizingcontacts: String,
-    // // 7. Important Dates:
-    // birthday: Date,
-    // anniversary: Date,
-    // keyMilestones: String,
-    // // 8. Additional Personal Information
-    // dob: String,
-    // gender: String,
-    // occupation: String,
-    // interestsOrHobbies: String,
-    // // 9. Preferred  Communication Preferences:
-    // communicationFrequency: String,
-    // preferences: String,
-    // // 10. Social Media Profiles:
-    // linkedInProfile: String,
-    // facebookProfile: String,
-    // twitterHandle: String,
-    // otherProfiles: String,
-    // // 11. Lead Assignment and Team Collaboration:
-    // agentOrTeamMember: String,
-    // internalNotesOrComments: String,
+    comments: [
+        {
+            comment: { type: String, required: true },
+            createdAt: { type: Date, default: Date.now },
+        }
+    ],
     createBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -65,11 +28,20 @@ const contactSchema = new mongoose.Schema({
     createdDate: {
         type: Date,
     },
+    isEdited:{
+type: Number,
+        default: 0,
+    },
     deleted: {
         type: Boolean,
         default: false,
     },
+    // dialedCalls: {  // ✅ Add this field
+    //     type: Number,
+    //     default: 0  // Start with 0 if not already set
+    // }
 });
+
 
 const initializeContactSchema = async () => {
     const schemaFieldsData = await fetchSchemaFields();

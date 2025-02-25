@@ -39,12 +39,15 @@ const changeStatus = async (req, res) => {
         let leadStatus;
 
         // logic to set the lead status based on name
-        if (["RNR", "Not Interested", "Busy", "Not Reachable"].includes(name)) {
+        if (["RNR", "Not Interested", "Busy", "Not Reachable","Currenlty Not Interested","Lead Lost"].includes(name)) {
             leadStatus = "cold";
-        } else if (["Follow Up", "Site Visit Scheduled"].includes(name)) {
+        } else if (["Follow Up", "Site Visit Schedule", "Site Visit Reschedule", "Video Call Schedule", "Video Call Reschedule"].includes(name)) {
             leadStatus = "warm";
-        } else if (name === "Site Visited Done") {
-            leadStatus = "";
+        } else if (["site Visited Done", "Booking Done","Office Visit Schedule","Office Visit Reschedule"].includes(name)) {
+            leadStatus = "hot";
+        }
+            else if(["Sales Closed", "Already Purchased"].includes(name)){
+            leadstatus = "booked"
         } else {
             return res.status(400).json({ success: false, message: "Invalid name for status update" });
         }
@@ -68,7 +71,7 @@ const changeStatus = async (req, res) => {
 };
 
 const add = async (req, res) => {
-    console.log(req.body,"lead..................................................")
+    //console.log(req.body,"lead..................................................")
     try {
         req.body.createdDate = new Date();
         const user = new Lead(req.body);
