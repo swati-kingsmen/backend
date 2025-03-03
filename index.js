@@ -3,7 +3,7 @@ const db = require('./db/config')
 const route = require('./controllers/route');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const port = 5001
+const port = 5002
 require('dotenv').config()
 const fs = require('fs');
 const path = require('path');
@@ -26,9 +26,9 @@ app.get('/', async (req, res) => {
 const server = app.listen(port, () => {
     const protocol = (process.env.HTTPS === true || process.env.NODE_ENV === 'production') ? 'https' : 'http';
     const { address, port } = server.address();
-    //console.log(port)
+    console.log(port)
     const host = address === '::' ? '127.0.0.1' : address;
-    //console.log(`Server listening at ${protocol}://${host}:${port}/`);
+    console.log(`Server listening at ${protocol}://${host}:${port}/`);
 });
 
 

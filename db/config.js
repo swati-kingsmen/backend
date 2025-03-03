@@ -87,7 +87,7 @@ const connectDB = async (DATABASE_URL, DATABASE) => {
             const user = new User({ _id: new mongoose.Types.ObjectId('64d33173fd7ff3fa0924a109'), username, password: hashedPassword, firstName, lastName, phoneNumber, role: 'superAdmin' });
             // Save the user to the database
             await user.save();
-            //console.log("Admin created successfully..");
+            console.log("Admin created successfully..");
         } else if (adminExisting[0].deleted === true) {
             await User.findByIdAndUpdate(adminExisting[0]._id, { deleted: false });
             //console.log("Admin Update successfully..");
